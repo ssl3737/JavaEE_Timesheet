@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+	<title>#{msgs.employeeTitle}</title>
+	<h:outputStylesheet library="css" name="bootstrap.css" />
+</h:head>
+<h:body>
+	<h3>#{msgs.page_title}</h3>
+	<h:form>
+		<h5>#{msgs.emp_num}&emsp;<h:outputText value="#{login.employeeId}"/>&emsp;&emsp;&emsp;&emsp;
+	    
+	     	#{msgs.wk_num}&emsp;<h:outputText value="#{timesheetListForm.getWeekNumber()}"/>&emsp;&emsp;&emsp;&emsp;
+	     	#{msgs.wk_end}&emsp;<h:outputText value="#{timesheetListForm.getWeekEnding()}"/>&emsp;&emsp;&emsp;&emsp;
+			#{msgs.name}&emsp;<h:outputText value="#{login.firstName}" style="font-weight: bold" />&nbsp;&nbsp;
+							  <h:outputText value="#{login.lastName}" style="font-weight: bold" /></h5>
+		<h:dataTable value="#{timesheetListForm.list}" var="p"
+			 class="table table-hover table-bordered" cellspacing="0"
+			 footerClass="list-footer" headerClass="list-header" columnClasses="odd,even">
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.editColumn}" style="font-weight: bold" />
+				</f:facet>
+				<h:selectBooleanCheckbox value="#{p.editable}" onclick="submit()" />
+				<f:facet name="footer">
+    				<h:commandButton value="#{msgs.add}" action="#{timesheetListForm.addRow()}" class="btn btn-default"/>
+			    </f:facet>
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.weekDate}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id ="endWeek" value="#{p.timesheet.endWeek}" rendered="#{p.editable}"
+					size="10" required="true">
+              </h:inputText>
+	              <h:message for="endWeek" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.endWeek}" rendered="#{not p.editable}"  />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.project_id}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="projectId" value="#{p.timesheet.projectId}" rendered="#{p.editable}"
+					size="10" required="true">
+				</h:inputText>
+	              <h:message for="projectId" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.projectId}" rendered="#{not p.editable}" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.wp}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="workPackage" value="#{p.timesheet.workPackage}" rendered="#{p.editable}"
+					size="10" required="true">
+				</h:inputText>
+	              <h:message for="workPackage" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.workPackage}"
+					rendered="#{not p.editable}" />
+				<f:facet name="footer">
+			                <h:outputText value="#{msgs.total}"/>
+			    </f:facet>	
+			</h:column>
+	        <h:column>
+	            <f:facet name="header">
+	                <h:outputText value="#{msgs.total}"/>
+	            </f:facet>
+	            <h:outputText value="#{p.timesheet.totalDay}" rendered="#{not list.editable}"/>
+	            <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalTotal()}"/>
+	            </f:facet>
+	        </h:column>
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.sat}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="sat" value="#{p.timesheet.sat}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="sat" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.sat}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalSat()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.sun}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="sun" value="#{p.timesheet.sun}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="sun" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.sun}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalSun()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.mon}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="mon" value="#{p.timesheet.mon}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="mon" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.mon}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalMon()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.tue}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="tue" value="#{p.timesheet.tue}"
+					rendered="#{p.editable}" size="10" >
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="tue" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.tue}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalTue()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.wed}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="wed" value="#{p.timesheet.wed}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="wed" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.wed}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalWed()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.thu}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="thu" value="#{p.timesheet.thu}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="thu" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.thu}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalThu()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.fri}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText id="fri" value="#{p.timesheet.fri}"
+					rendered="#{p.editable}" size="10">
+  					 <f:validateLongRange minimum="0" maximum="8" />
+  				</h:inputText>	 
+	            <h:message for="fri" styleClass="errorMessage"/>
+				<h:outputText value="#{p.timesheet.fri}"
+					rendered="#{not p.editable}" />
+	           <f:facet name="footer">
+	                <h:outputText value="#{timesheetListForm.totalFri()}"/>
+	            </f:facet>
+			</h:column>	
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.notes}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:inputText value="#{p.timesheet.notes}"
+					rendered="#{p.editable}" size="10"/>
+				<h:outputText value="#{p.timesheet.notes}"
+					rendered="#{not p.editable}" />
+			</h:column>				
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="#{msgs.employeeDeleteColumn}"
+						style="font-weight: bold" />
+				</f:facet>
+				<h:commandLink value="#{msgs.delete}"
+					action="#{timesheetListForm.deleteRow(p)}" />
+			</h:column>
+			
+		</h:dataTable>
+		<div class="form-group">
+		    <div class="col-sm-offset-0 col-sm-12">
+		  	  <h:commandButton value="#{msgs.save_changes}" action="#{timesheetListForm.save}" class="btn btn-default"/>&nbsp;&nbsp;	
+		  	  <h:commandButton value="#{msgs.save_clear}" action="displayTimesheet" class="btn btn-default"/>&nbsp;&nbsp;
+			  <h:commandButton value="#{msgs.view_timesheet}" action="displayTimesheetForm" class="btn btn-default"/>&nbsp;&nbsp;
+		  	  <h:commandButton value="#{msgs.logout}" action="#{login.logout()}" class="btn btn-default"/>&nbsp;&nbsp;&nbsp;&nbsp;
+		  	  <h:commandButton value="#{msgs.change_password}" action="changePassword" class="btn btn-default"/>&nbsp;&nbsp;
+		  	  <h:commandButton value="#{msgs.supervisor_menu}" rendered="#{login.getSupervisor()}" action="displayEmployee"
+		  	  style="background-color: #B0E0E6" class="btn btn-default"/>&nbsp;&nbsp;
+		  	  		  	  
+ 			</div>
+  		</div>
+	</h:form>
+	<ui:debug/>
+</h:body>
+</html>
